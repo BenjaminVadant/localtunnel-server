@@ -1,0 +1,11 @@
+version: '2.3'
+
+services:
+
+  localtunnel-server:
+    build: .
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      - ENVIRONMENT=development
