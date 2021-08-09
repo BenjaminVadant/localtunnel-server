@@ -62,7 +62,7 @@ describe('Server', () => {
             });
         });
 
-        const ws = new WebSocket('http://localhost:' + server.address().port, {
+        const ws = new WebSocket('ws://127.0.0.1:' + server.address().port, {
             headers: {
                 host: hostname + '.example.com',
             }
@@ -74,13 +74,13 @@ describe('Server', () => {
 
         await new Promise((resolve) => {
             ws.once('message', (msg) => {
-                assert.equal(msg, 'something');
+                assert.equal(msg.toString(), 'something');
                 resolve();
             });
         });
 
         wss.close();
-        await new Promise(resolve => server.close(resolve));
+        server.close();
     });
 
     it('should support the /api/tunnels/:id/status endpoint', async () => {

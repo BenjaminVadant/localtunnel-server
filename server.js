@@ -52,12 +52,13 @@ export default function(opt) {
 
     let apiKey;
     app.use(async (ctx, next) => {
-        if (apiKey && apiKey !== req.headers['x-access-key']) {
-            res.statusCode = 400;
-            res.end('x-access-key header is required');
+        if (apiKey && apiKey !== ctx.request.headers['x-access-key']) {
+            ctx.throw(400, 'x-access-key header is required');
             return;
         }
-        next();
+
+        await next();
+        return;
     });
     app.use(router.routes());
     app.use(router.allowedMethods());
