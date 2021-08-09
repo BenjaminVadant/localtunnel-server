@@ -49,8 +49,8 @@ const server = CreateServer({
 
 server.listen(argv.port, argv.address, () => {
     if (argv.apiKey) {
-        const key = server.setKey(argv.apiKey !== 'true' ? argv.apiKey : undefined);
-        debug('server api key: %s', key);
+        const key = server.setKey(argv.apiKey.toString() !== 'true' ? argv.apiKey : undefined);
+        console.log('server api key: %s', key);
     }
     debug('server listening on port: %d', server.address().port);
 });

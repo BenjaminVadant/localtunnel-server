@@ -28,6 +28,21 @@ describe('Server', () => {
         assert.equal('https://localtunnel.github.io/www/', res.headers.location);
     });
 
+    it('should support api-key protection', async () => {
+        const server = createServer({
+            domain: 'domain.example.com',
+        });
+
+        const key = server.setKey();
+
+        const resWithoutKey = await request(server).get('/');
+        assert.equal(400, resWithoutKey.error.status);
+        assert.equal('x-access-key header is required', resWithoutKey.error.text);
+
+        const resWithKey = await request(server).get('/').set('x-access-key', key);
+        assert.equal('https://localtunnel.github.io/www/', resWithKey.headers.location);
+    });
+
     it('reject long domain name requests', async () => {
         const server = createServer();
         const res = await request(server).get('/thisdomainisoutsidethesizeofwhatweallowwhichissixtythreecharacters');
