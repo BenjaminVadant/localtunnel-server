@@ -16,6 +16,10 @@ const argv = optimist
         default: false,
         describe: 'use this flag to indicate proxy over https'
     })
+    .options('apiKey', {
+        default: false,
+        describe: 'Use this option to specify or to generate an api key'
+    })
     .options('port', {
         default: '80',
         describe: 'listen on this port for outside requests'
@@ -45,6 +49,10 @@ const server = CreateServer({
 });
 
 server.listen(argv.port, argv.address, () => {
+    if (argv.apiKey) {
+        const key = server.setKey(argv.apiKey !== 'true' ? argv.apiKey : undefined);
+        debug('server api key: %s', key);
+    }
     debug('server listening on port: %d', server.address().port);
 });
 

@@ -50,6 +50,15 @@ export default function(opt) {
         };
     });
 
+    let apiKey;
+    app.use(async (ctx, next) => {
+        if (apiKey && apiKey !== req.headers['x-access-key']) {
+            res.statusCode = 400;
+            res.end('x-access-key header is required');
+            return;
+        }
+        next();
+    });
     app.use(router.routes());
     app.use(router.allowedMethods());
 
@@ -163,6 +172,11 @@ export default function(opt) {
 
         client.handleUpgrade(req, socket);
     });
+
+    server.setKey = (key = hri.random()) => {
+        apiKey = key;
+        return apiKey;
+    };
 
     return server;
 };
