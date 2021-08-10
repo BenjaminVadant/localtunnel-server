@@ -10,4 +10,4 @@ RUN npm install --production
 COPY . /app
 
 ENV NODE_ENV production
-ENTRYPOINT ["node", "-r", "esm", "./bin/server", "--apiKey"]
+ENTRYPOINT ["node", "-r", "esm", "./bin/server", "--apiKey", "--port=3000"]
