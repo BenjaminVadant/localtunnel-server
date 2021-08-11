@@ -8,4 +8,5 @@ services:
     ports:
       - 3000:3000
     environment:
-      - ENVIRONMENT=development
+      - NODE_ENV=development
+      - DOMAIN=localtunnel.vadant.fr

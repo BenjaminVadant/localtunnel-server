@@ -44,7 +44,7 @@ if (argv.help) {
 const server = CreateServer({
     max_tcp_sockets: argv['max-sockets'],
     secure: argv.secure,
-    domain: argv.domain,
+    domain: argv.domain || process.env.DOMAIN,
 });
 
 server.listen(argv.port, argv.address, () => {
